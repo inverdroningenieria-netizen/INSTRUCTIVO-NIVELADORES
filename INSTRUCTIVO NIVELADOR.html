@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Instructivo Niveladores</title>
+
+<style>
+:root {
+    --azul: #0a3d62;
+    --azul2: #1e6091;
+    --fondo: #f4f6f9;
+    --card: white;
+    --texto: #1a1a1a;
+}
+
+.dark {
+    --fondo: #1e1e1e;
+    --card: #2c2c2c;
+    --texto: white;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    background: var(--fondo);
+    color: var(--texto);
+}
+
+/* Marca de agua */
+body::after {
+    content: "";
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 320px;
+    height: 320px;
+    background: url('marca.png') no-repeat;
+    background-size: contain;
+    opacity: 0.05;
+    filter: blur(1px);
+    pointer-events: none;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(90deg, var(--azul), var(--azul2));
+    padding: 15px 40px;
+    color: white;
+}
+
+.title {
+    text-align: center;
+}
+
+/* Info superior */
+.info {
+    text-align: center;
+    font-size: 12px;
+    opacity: 0.8;
+    margin-top: 5px;
+}
+
+/* Contenedor */
+.container {
+    max-width: 1000px;
+    margin: 30px auto;
+}
+
+/* Cards */
+.card {
+    background: var(--card);
+    padding: 25px;
+    margin-bottom: 25px;
+    border-radius: 12px;
+    border-left: 6px solid var(--azul);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+}
+
+/* Títulos */
+h3 {
+    color: var(--azul);
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+}
+
+/* Tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background: var(--azul);
+    color: white;
+    padding: 12px;
+}
+
+td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+/* Checklist */
+.checklist li {
+    list-style: none;
+    margin: 12px 0;
+    display: flex;
+    align-items: center;
+}
+
+.checklist input {
+    margin-right: 10px;
+    transform: scale(1.3);
+    cursor: pointer;
+}
+
+.checklist input:checked + span {
+    text-decoration: line-through;
+    color: gray;
+}
+
+/* Botones */
+.buttons {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 10px 18px;
+    margin: 5px;
+    border: none;
+    border-radius: 8px;
+    background: var(--azul);
+    color: white;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: var(--azul2);
+}
+
+/* Imagen */
+.img-box {
+    text-align: center;
+    position: relative;
+}
+/* Grid de imágenes */
+.img-grid {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.img-item p {
+    font-size: 13px;
+    margin-top: 8px;
+    color: #555;
+}
+
+.img-item img {
+    width: 100%;
+    border-radius: 10px;
+    cursor: zoom-in;
+}
+
+.img-box img {
+    width: 380px;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    transition: all 0.3s ease;
+    cursor: zoom-in;
+
+    border: 3px solid transparent;
+    background: linear-gradient(white, white) padding-box,
+                linear-gradient(45deg, var(--azul), var(--azul2)) border-box;
+}
+
+/* Alertas */
+.alert {
+    background: #fff3cd;
+    border-left: 5px solid #ffcc00;
+    padding: 12px;
+    margin-top: 15px;
+    border-radius: 6px;
+}
+
+.alert.good {
+    background: #d4edda;
+    border-left: 5px solid #28a745;
+}
+
+/* Hover */
+.img-box img:hover {
+    transform: scale(1.08);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.35);
+}
+
+/* Modal (imagen grande) */
+#modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+}
+
+#modal img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    font-size: 12px;
+    margin: 20px;
+    opacity: 0.8;
+}
+
+/* Print */
+@media print {
+    button {
+        display: none;
+    }
+}
+</style>
+</head>
+<body>
+
+<div id="modal" onclick="cerrarImagen()">
+    <img id="imgGrande">
+</div>
+
+<div class="header">
+    <img src="logo_jgw.png" height="50">
+    <div class="title">
+        <strong>(INSTRUCTIVO CLIENTE)</strong><br>
+        INSTALACIÓN DE NIVELADORES LEVEL-EZE
+    </div>
+    <div><strong>I.T.02</strong></div>
+</div>
+
+<div class="info">
+Código: I.T.02 | Versión: V2 | Fecha: 01/04/2026
+</div>
+
+<div class="container">
+
+<div class="buttons">
+    <button onclick="window.print()">📄 Exportar PDF</button>
+    <button onclick="toggleDark()">🌙 Modo oscuro</button>
+</div>
+
+<div class="card">
+<table>
+<tr>
+<th>VERSIÓN</th>
+<th>FECHA</th>
+<th>DESCRIPCIÓN</th>
+<th>ELABORÓ</th>
+<th>REVISÓ</th>
+<th>APROBÓ</th>
+</tr>
+<tr>
+<td>V2</td>
+<td>01/04/2026</td>
+<td>Creación del documento</td>
+<td>Samuel Ramos</td>
+<td>Lili Forero</td>
+<td>Lili Forero</td>
+</tr>
+</table>
+</div>
+
+<div class="card">
+<h3>1. Objetivo</h3>
+<p>
+Establecer el procedimiento para la correcta instalación de los niveladores Level-Eze, garantizando seguridad y eficiencia en el proceso.
+</p>
+</div>
+
+<div class="card">
+<h3>2. Alcance</h3>
+<p>
+Aplica para todo el personal técnico encargado de la instalación de niveladores en campo.
+</p>
+</div>
+
+<div class="card">
+<h3>3. Herramientas necesarias</h3>
+<ul class="checklist">
+<li><input type="checkbox"><span>Taladro</span></li>
+<li><input type="checkbox"><span>Broca de 3/8"</span></li>
+<li><input type="checkbox"><span>Segueta</span></li>
+<li><input type="checkbox"><span>Llaves de 11 mm y 14 mm</span></li>
+<li><input type="checkbox"><span>Guantes</span></li>
+<li><input type="checkbox"><span>Tapabocas</span></li>
+<li><input type="checkbox"><span>Marcador</span></li>
+</ul>
+</div>
+
+<div class="card img-box">
+<img src="herramientas.png" onclick="ampliarImagen(this.src)">
+</div>
+
+<div class="card">
+<h3>4. Componentes del sistema</h3>
+<ul>
+<li>(2) Patas Level-Eze: Vienen preensambladas (no se debe retirar la cinta de seguridad hasta el final)</li>
+<li>(1) Varilla de aluminio cuadrada: Es el eje de control que conecta ambas patas a través del peldaño</li>
+<li>(6) Placas de soporte: Para distribuir la carga en los rieles de la escalera</li>
+<li>(12) Tuercas hexagonales: Para la fijación de las patas</li>
+<li>(1) Plantilla de montaje: Crucial para marcar las perforaciones con precisión</li>
+</ul>
+</div>
+
+<div class="card">
+<h3>5. Procedimiento de Instalación Técnica</h3>
+<div class="alert">
+⚠️ <strong>Nota:</strong> Este procedimiento debe ser ejecutado por personal técnico capacitado. El incumplimiento de estas instrucciones puede comprometer la seguridad del usuario final.
+</div>
+
+<div class="step">
+    <h4>🔷 Fase 1: Preparación y Alistamiento</h4>
+    <p><strong>1. Ubicación de la escalera:</strong> Coloque la escalera en posición horizontal sobre una superficie estable, garantizando inmovilidad durante el proceso.</p>
+    <p><strong>2. Configuración inicial:</strong> En escaleras extensibles, desplace la sección superior entre 60 cm y 80 cm para liberar la base.</p>
+    <p><strong>3. Inspección:</strong> Verifique integridad estructural de los rieles y ausencia de deformaciones.</p>
+
+    <div class="img-grid">
+        <div class="img-item">
+            <img src="paso1.png" onclick="ampliarImagen(this.src)">
+            <p><strong>Figura 1:</strong> Kit inicial con todos los componentes del sistema Level-Eze.</p>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<div class="step">
+    <h4>🔷 Fase 2: Posicionamiento de Plantilla y Marcación</h4>
+    <p><strong>4. Referencia:</strong> Ubique el segundo peldaño desde la base de la escalera.</p>
+    <p><strong>5. Instalación de plantilla:</strong> Posicione la plantilla alineada con el borde posterior del riel.</p>
+    <p><strong>6. Alineación crítica:</strong> Verifique que el orificio guía coincida con el eje del peldaño.</p>
+    <p><strong>7. Marcación:</strong> Marque los seis (6) puntos de perforación por cada riel.</p>
+
+    <div class="img-grid">
+        <div class="img-item">
+            <img src="paso3.png" onclick="ampliarImagen(this.src)">
+            <p><strong>Figura 2:</strong> Centrado correcto de la plantilla respecto al eje del peldaño.</p>
+        </div>
+    </div>
+
+    <div class="alert">⚠️ <strong>Punto crítico:</strong> Una incorrecta alineación generará desajuste en la sincronización del sistema.</div>
+</div>
+
+<hr>
+
+<div class="step">
+    <h4>🔷 Fase 3: Perforación de Rieles</h4>
+    <p><strong>8. Perforación:</strong> Realice las perforaciones con broca de 3/8" manteniendo perpendicularidad respecto al riel.</p>
+    <p><strong>9. Limpieza:</strong> Retire rebabas o residuos metálicos.</p>
+
+    <div class="img-grid">
+        <div class="img-item">
+            <img src="paso2.png" onclick="ampliarImagen(this.src)">
+            <p><strong>Figura 3:</strong> Proceso de perforación de los rieles según plantilla.</p>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<div class="step">
+    <h4>🔷 Fase 4: Ajuste y Corte del Eje de Transmisión</h4>
+    <p><strong>10. Medición:</strong> Mida el ancho total entre rieles de la escalera.</p>
+    <p><strong>11. Ajuste:</strong> Sume <strong>65 mm</strong> a la medida obtenida.</p>
+    <p><strong>12. Corte:</strong> Corte la varilla de aluminio garantizando perpendicularidad y acabado limpio.</p>
+
+    <div class="img-grid">
+        <div class="img-item">
+            <img src="paso4.png" onclick="ampliarImagen(this.src)">
+            <p><strong>Figura 4:</strong> Medición del barraje para ajuste del eje de transmisión.</p>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<div class="step">
+    <h4>🔷 Fase 5: Montaje del Sistema de Nivelación</h4>
+    <p><strong>13. Inserción del eje:</strong> Introduzca la varilla cuadrada en el engranaje interno del primer nivelador.</p>
+    <p><strong>14. Paso del eje:</strong> Desplace el eje a través del peldaño hacia el lado opuesto.</p>
+    <p><strong>15. Acople:</strong> Instale el segundo nivelador asegurando acople mecánico correcto.</p>
+    <p><strong>16. Sincronización:</strong> Verifique que un nivelador quede extendido y el otro retraído.</p>
+
+    <div class="img-grid">
+        <div class="img-item">
+            <img src="paso5.png" onclick="ampliarImagen(this.src)">
+            <p><strong>Figura 5:</strong> Inserción del eje en el engranaje del nivelador.</p>
+        </div>
+        <div class="img-item">
+            <img src="paso6.png" onclick="ampliarImagen(this.src)">
+            <p><strong>Figura 6:</strong> Ensamblaje simétrico de los niveladores en ambos rieles.</p>
+        </div>
+    </div>
+
+    <div class="alert">⚠️ <strong>Control funcional:</strong> El sistema debe operar de forma inversa y sincronizada.</div>
+</div>
+
+<hr>
+
+<div class="step">
+    <h4>🔷 Fase 6: Fijación Estructural</h4>
+    <p><strong>17. Instalación:</strong> Ubique las placas de soporte y alinee con las perforaciones.</p>
+    <p><strong>18. Ensamble:</strong> Inserte tornillería y ajuste las tuercas hexagonales.</p>
+    <p><strong>19. Torque:</strong> Aplique ajuste uniforme hasta lograr fijación firme de los componentes, evitando deformación del riel o sobreesfuerzo en la tornillería</p>
+</div>
+
+<hr>
+
+<div class="step">
+    <h4>🔷 Fase 7: Instalación de Zapatas Giratorias</h4>
+    <p><strong>20. Orientación:</strong> Instale la zapata con la placa dentada orientada hacia la parte posterior de la escalera.</p>
+    <p><strong>21. Ensamble:</strong> Inserte el perno de hombro y asegure con contratuerca.</p>
+    <p><strong>22. Verificación:</strong> Confirme libre movimiento de la zapata.</p>
+
+    <div class="img-grid">
+        <div class="img-item">
+            <img src="paso7.png" onclick="ampliarImagen(this.src)">
+            <p><strong>Figura 7:</strong> Instalación física de zapatas en los niveladores.</p>
+        </div>
+        <div class="img-item">
+            <img src="guia.png" onclick="ampliarImagen(this.src)">
+            <p><strong>Figura 8:</strong> Diagrama técnico de montaje (perno de hombro y contratuerca).</p>
+        </div>
+    </div>
+
+    <div class="alert good">✅ <strong>Validación:</strong> La zapata debe pivotar libremente por gravedad.</div>
+</div>
+
+<hr>
+
+<div class="step">
+    <h4>🔷 Fase 8: Pruebas Operativas</h4>
+    <p><strong>23. Verificación funcional:</strong> Accione manualmente el sistema comprobando movimiento inverso.</p>
+    <p><strong>24. Prueba en campo:</strong> Ubique la escalera en superficie irregular y valide estabilidad.</p>
+    <p><strong>25. Inspección final:</strong> Confirme ausencia de holguras o interferencias.</p>
+
+    <div class="img-box">
+        <img src="paso8.jpg" onclick="ampliarImagen(this.src)" style="width: 250px;">
+        <p><strong>Figura 9:</strong> Prueba operativa del sistema en condición real de desnivel.</p>
+    </div>
+</div>
+<hr>
+
+<div class="card">
+    <h3>6. Material de apoyo (Video)</h3>
+    <p>
+        A continuación, se presenta un video de apoyo que ilustra el proceso de instalación del sistema Level-Eze en condiciones reales:
+    </p>
+
+    <div style="text-align:center; margin-top:15px;">
+        <video controls style="width:100%; max-width:600px; border-radius:10px; box-shadow:0 10px 25px rgba(0,0,0,0.2);">
+            <source src="video.mp4" type="video/mp4">
+            Tu navegador no soporta reproducción de video.
+        </video>
+    </div>
+</div>
+<h3>7. Recomendaciones de seguridad</h3>
+<ul>
+<li>Usar elementos de protección personal (EPP).</li>
+<li>Verificar herramientas antes del uso.</li>
+<li>No trabajar en condiciones inseguras.</li>
+</ul>
+</div>
+
+</div>
+
+<div class="footer">
+JGW-EZE1000-2 | Documento propiedad de INVERDRON JGW S.A.S.
+</div>
+
+<script>
+function toggleDark() {
+    document.body.classList.toggle("dark");
+}
+</script>
+<script>
+function ampliarImagen(src) {
+    document.getElementById("modal").style.display = "flex";
+    document.getElementById("imgGrande").src = src;
+}
+
+function cerrarImagen() {
+    document.getElementById("modal").style.display = "none";
+}
+
+</script>
+</body>
+</html>
